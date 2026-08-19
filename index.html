@@ -124,6 +124,7 @@ img { max-width: 100%; }
   [style*="padding: 24px 32px; min-width: 110px"] { padding: 14px 16px !important; min-width: 78px !important; }
 }
 </style>
+<style id="smooth-scroll-fix">html{scroll-behavior:smooth;}</style>
 </head>
 <body>
 <x-dc>
@@ -1262,7 +1263,9 @@ a:hover{color:var(--coral-active);}
       <a href="https://pf.kakao.com/_xdwVxjX" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;">
         <x-import component-from-global-scope="ClaudeDesignSystem_040c50.Button" hint-size="auto,40px" variant="primary">무료 상담 신청</x-import>
       </a>
-      <x-import component-from-global-scope="ClaudeDesignSystem_040c50.Button" hint-size="auto,40px" variant="secondary">커리큘럼 자세히 보기</x-import>
+      <a href="#curriculum" style="text-decoration:none;display:inline-block;">
+        <x-import component-from-global-scope="ClaudeDesignSystem_040c50.Button" hint-size="auto,40px" variant="secondary">커리큘럼 자세히 보기</x-import>
+      </a>
     </div>
   </section>
 
@@ -1350,7 +1353,7 @@ a:hover{color:var(--coral-active);}
   </section>
 
   <!-- 4. PART 카드 -->
-  <section style="background:var(--surface-soft);padding:96px 48px;">
+  <section id="curriculum" style="background:var(--surface-soft);padding:96px 48px;">
     <div style="max-width:1200px;margin:0 auto;">
       <h2 style="font-family:var(--font-serif-display);font-size:36px;font-weight:500;color:var(--ink);text-align:center;margin:0 0 64px;">3파트 커리큘럼</h2>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
