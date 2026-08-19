@@ -30,6 +30,102 @@
 <script src="assets/js/react.production.min.js"></script>
 <script src="assets/js/react-dom.production.min.js"></script>
 <script src="assets/js/dc-runtime.js"></script>
+
+<style id="responsive-overrides">
+/* ============================================================
+   반응형 오버라이드
+   주의: 이 페이지는 dc-runtime(React 기반)이 부팅 시 전체 본문을
+   재렌더링하면서 모든 inline style 속성을 "prop: value; prop2: value2;"
+   형태(콜론/콤마 뒤 공백 포함, 0 → 0px)로 재직렬화합니다. 아래 선택자는
+   전부 실제 라이브 DOM에서 getAttribute('style')로 확인한 정규화된
+   문자열 기준으로 작성되었습니다 (원본 HTML 소스의 공백 없는 표기와 다름).
+   ============================================================ */
+img { max-width: 100%; }
+html { scroll-behavior: smooth; }
+
+/* 태그가 유일한 요소는 속성 매칭 대신 태그 선택자로 안전하게 처리 */
+@media (max-width: 640px) {
+  h1 { font-size: 30px !important; line-height: 1.25 !important; letter-spacing: -0.5px !important; }
+  h2 { font-size: 24px !important; }
+}
+
+/* ---- 태블릿 (~900px): 3~4열 그리드를 2열로 ---- */
+@media (max-width: 900px) {
+  [style*="grid-template-columns: repeat(3, 1fr)"],
+  [style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ---- 모바일 (~640px) ---- */
+@media (max-width: 640px) {
+  /* 히어로 배경 장식 글자(</>,{ },01 등)는 좁은 화면에서 방해만 되므로 숨김 */
+  div[aria-hidden="true"] { display: none !important; }
+
+  /* 섹션 좌우 여백 축소 (48px → 20px) */
+  [style*="padding: 96px 48px"],
+  [style*="padding: 80px 48px"] { padding: 56px 20px !important; }
+  [style*="padding: 120px 48px 96px"] { padding: 64px 20px 48px !important; }
+  [style*="padding: 0px 48px 96px"] { padding: 0px 20px 56px !important; }
+  [style*="padding: 72px 48px 96px"] { padding: 40px 20px 56px !important; }
+
+  /* 상단 고정 마감 배너 여백 축소 */
+  [style*="padding: 10px 24px"] { padding: 8px 14px !important; }
+
+  /* PART 1/2/3 비율 바: flex 비율(3:7:2) 고정폭에 한글 텍스트가 눌려 잘리므로
+     좁은 화면에서는 세로로 쌓아 각 파트가 전체 폭을 쓰도록 전환 */
+  [style*="display: flex; border-radius: var(--radius-md); overflow: hidden; height: 64px;"] {
+    flex-direction: column !important;
+    height: auto !important;
+  }
+  [style*="display: flex; border-radius: var(--radius-md); overflow: hidden; height: 64px;"] > div {
+    flex: none !important;
+    width: 100% !important;
+    padding: 12px 16px !important;
+    box-sizing: border-box;
+  }
+
+  /* 네비게이션: sticky 해제(배너가 2줄로 늘어나도 겹치지 않도록) + 여백/높이 축소 */
+  nav {
+    position: static !important;
+    padding: 12px 16px !important;
+    height: auto !important;
+    min-height: 56px;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  /* 대형 숫자/카운트다운 등 h1·h2가 아닌 큰 글자 축소 */
+  [style*="font-size: 48px"] { font-size: 30px !important; }
+  [style*="font-size: 44px"] { font-size: 26px !important; }
+  [style*="font-size: 22px"] { font-size: 17px !important; }
+
+  /* 그리드: 좁은 화면에선 모두 1열로 */
+  [style*="grid-template-columns: repeat(3, 1fr)"] { grid-template-columns: 1fr !important; }
+  [style*="grid-template-columns: repeat(4, 1fr)"] { grid-template-columns: repeat(2, 1fr) !important; }
+  [style*="grid-template-columns: 1fr auto 1fr"] { grid-template-columns: 1fr !important; text-align: left; }
+
+  /* 히어로 CTA 버튼: 넘치지 않도록 줄바꿈 + 가운데 정렬 */
+  [style*="display: flex; gap: 16px; margin-top: 8px;"] {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  /* 강사 소개: 사진 + 텍스트 좌우 배치 → 세로 배치 */
+  [style*="display: flex; gap: 48px; align-items: flex-start;"] {
+    flex-direction: column !important;
+  }
+  [style*="display: flex; gap: 48px; align-items: flex-start;"] > img {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 220px;
+    margin: 0 auto 20px;
+  }
+
+  /* 마감 카운트다운 숫자 박스: 여백 축소 */
+  [style*="padding: 24px 32px; min-width: 110px"] { padding: 14px 16px !important; min-width: 78px !important; }
+}
+</style>
 </head>
 <body>
 <x-dc>
@@ -1168,7 +1264,9 @@ a:hover{color:var(--coral-active);}
       <a href="https://pf.kakao.com/_xdwVxjX" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;">
         <x-import component-from-global-scope="ClaudeDesignSystem_040c50.Button" hint-size="auto,40px" variant="primary">무료 상담 신청</x-import>
       </a>
-      <x-import component-from-global-scope="ClaudeDesignSystem_040c50.Button" hint-size="auto,40px" variant="secondary">커리큘럼 자세히 보기</x-import>
+      <a href="#curriculum" style="text-decoration:none;display:inline-block;">
+        <x-import component-from-global-scope="ClaudeDesignSystem_040c50.Button" hint-size="auto,40px" variant="secondary">커리큘럼 자세히 보기</x-import>
+      </a>
     </div>
   </section>
 
@@ -1201,7 +1299,7 @@ a:hover{color:var(--coral-active);}
   </section>
 
   <!-- 1-0. 진입장벽 해소 -->
-  <section style="max-width:800px;margin:0 auto;padding:0 48px 96px;text-align:center;">
+  <section style="max-width:800px;margin:0 auto;padding:72px 48px 96px;text-align:center;">
     <h2 style="font-family:var(--font-serif-display);font-size:32px;font-weight:500;color:var(--ink);margin:0 0 16px;">코딩 전혀 몰라도 괜찮습니다.</h2>
     <p style="font-size:16px;line-height:1.7;color:var(--body);margin:0;">이 과정은 비개발자를 전제로 설계되었습니다.<br>선수 지식 없이, 이론보다 매일 눈에 보이는 결과물을<br>직접 만들어보는 방식으로 진행됩니다.</p>
   </section>
@@ -1256,7 +1354,7 @@ a:hover{color:var(--coral-active);}
   </section>
 
   <!-- 4. PART 카드 -->
-  <section style="background:var(--surface-soft);padding:96px 48px;">
+  <section id="curriculum" style="background:var(--surface-soft);padding:96px 48px;scroll-margin-top:80px;">
     <div style="max-width:1200px;margin:0 auto;">
       <h2 style="font-family:var(--font-serif-display);font-size:36px;font-weight:500;color:var(--ink);text-align:center;margin:0 0 64px;">3파트 커리큘럼</h2>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
